@@ -1,6 +1,6 @@
 {
   "name": "markdown-it-ghost-upload",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ghost image upload for markdown-it.",
   "keywords": [
     "markdown-it-plugin"
