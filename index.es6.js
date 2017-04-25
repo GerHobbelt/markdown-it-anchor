@@ -8,6 +8,10 @@ const position = {
   true: 'unshift'
 }
 
+const hasProp = ({}).hasOwnProperty
+
+const permalinkHref = slug => `#${slug}`
+
 const renderPermalink = (slug, opts, state, idx) => {
   const space = () =>
     Object.assign(new state.Token('text', '', 0), { content: ' ' })
@@ -16,7 +20,7 @@ const renderPermalink = (slug, opts, state, idx) => {
     Object.assign(new state.Token('link_open', 'a', 1), {
       attrs: [
         ['class', opts.permalinkClass],
-        ['href', `#${slug}`],
+        ['href', opts.permalinkHref(slug, state)],
         ['aria-hidden', 'true']
       ]
     }),
@@ -32,7 +36,7 @@ const renderPermalink = (slug, opts, state, idx) => {
 
 const uniqueSlug = (slug, slugs) => {
   // Mark this slug as used in the environment.
-  slugs[slug] = (slugs[slug] || 0) + 1
+  slugs[slug] = (hasProp.call(slugs, slug) ? slugs[slug] : 0) + 1
 
   // First slug, return as is.
   if (slugs[slug] === 1) {
@@ -59,9 +63,12 @@ const anchor = (md, opts) => {
           .filter(token => token.type === 'text')
           .reduce((acc, t) => acc + t.content, '')
 
-        const slug = uniqueSlug(opts.slugify(title), slugs)
+        let slug = token.attrGet('id')
 
-        token.attrPush(['id', slug])
+        if (slug == null) {
+          slug = uniqueSlug(opts.slugify(title), slugs)
+          token.attrPush(['id', slug])
+        }
 
         if (opts.permalink) {
           opts.renderPermalink(slug, opts, state, tokens.indexOf(token))
@@ -81,7 +88,8 @@ anchor.defaults = {
   renderPermalink,
   permalinkClass: 'header-anchor',
   permalinkSymbol: '¶',
-  permalinkBefore: false
+  permalinkBefore: false,
+  permalinkHref
 }
 
 export default anchor
