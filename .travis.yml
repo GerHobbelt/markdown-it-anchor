@@ -6,3 +6,7 @@ node_js:
  - 7
  - stable
 sudo: false
+
+# see also: https://github.com/travis-ci/travis-ci/issues/4653
+# as NPM2 b0rks on the peerDependencies...
+before_install: if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi
