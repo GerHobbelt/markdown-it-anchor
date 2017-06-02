@@ -1,6 +1,6 @@
 {
   "name": "markdown-it-anchor",
-  "version": "3.0.0-5",
+  "version": "4.0.0-6",
   "description": "Header anchors for markdown-it.",
   "keywords": [
     "markdown-it-plugin"
@@ -22,32 +22,17 @@
     "url": "https://github.com/valeriangalliat/markdown-it-anchor.git"
   },
   "scripts": {
-    "build": "babel index.es6.js -o index.js",
-    "lint": "standard index.es6.js test.js",
-    "prepublish": "npm run build",
-    "test": "npm run lint && npm run build && babel-node test.js"
+    "lint": "standard",
+    "prepublish": "npm test",
+    "test": "npm run lint && node test"
   },
   "dependencies": {
     "string": "^3.3.3"
   },
   "devDependencies": {
-    "babel-cli": "6.24.1",
-    "babel-core": "6.24.1",
-    "babel-plugin-add-module-exports": "0.2.1",
-    "babel-plugin-transform-object-assign": "6.22.0",
-    "babel-preset-es2015": "6.24.1",
     "markdown-it": "github:GerHobbelt/markdown-it",
     "markdown-it-attrs": "github:GerHobbelt/markdown-it-attrs",
     "standard": "10.0.2"
-  },
-  "babel": {
-    "presets": [
-      "es2015"
-    ],
-    "plugins": [
-      "transform-object-assign",
-      "add-module-exports"
-    ]
   },
   "tonicExampleFilename": "demo.js"
 }

@@ -1,109 +1,102 @@
-'use strict';
+const string = require('string')
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+const slugify = s =>
+  string(s).slugify().toString()
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _string = require('string');
-
-var _string2 = _interopRequireDefault(_string);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var slugify = function slugify(s) {
-  return (0, _string2.default)(s).slugify().toString();
-};
-
-var position = {
+const position = {
   false: 'push',
   true: 'unshift'
-};
+}
 
-var hasProp = {}.hasOwnProperty;
+const hasProp = ({}).hasOwnProperty
 
-var permalinkHref = function permalinkHref(slug) {
-  return '#' + slug;
-};
+const permalinkHref = slug => `#${slug}`
 
-var renderPermalink = function renderPermalink(slug, opts, state, idx) {
-  var _state$tokens$childre;
+const renderPermalink = (slug, opts, state, idx) => {
+  const space = () =>
+    Object.assign(new state.Token('text', '', 0), { content: ' ' })
 
-  var space = function space() {
-    return _extends(new state.Token('text', '', 0), { content: ' ' });
-  };
-
-  var linkTokens = [_extends(new state.Token('link_open', 'a', 1), {
-    attrs: [['class', opts.permalinkClass], ['href', opts.permalinkHref(slug, state)], ['aria-hidden', 'true']]
-  }), _extends(new state.Token('html_block', '', 0), { content: opts.permalinkSymbol }), new state.Token('link_close', 'a', -1)];
+  const linkTokens = [
+    Object.assign(new state.Token('link_open', 'a', 1), {
+      attrs: [
+        ['class', opts.permalinkClass],
+        ['href', opts.permalinkHref(slug, state)],
+        ['aria-hidden', 'true']
+      ]
+    }),
+    Object.assign(new state.Token('html_block', '', 0), { content: opts.permalinkSymbol }),
+    new state.Token('link_close', 'a', -1)
+  ]
 
   // `push` or `unshift` according to position option.
   // Space is at the opposite side.
-  linkTokens[position[!opts.permalinkBefore]](space());
-  (_state$tokens$childre = state.tokens[idx + 1].children)[position[opts.permalinkBefore]].apply(_state$tokens$childre, linkTokens);
-};
+  linkTokens[position[!opts.permalinkBefore]](space())
+  state.tokens[idx + 1].children[position[opts.permalinkBefore]](...linkTokens)
+}
 
-var uniqueSlug = function uniqueSlug(slug, slugs) {
+const uniqueSlug = (slug, slugs) => {
   // Mark this slug as used in the environment.
-  slugs[slug] = (hasProp.call(slugs, slug) ? slugs[slug] : 0) + 1;
+  slugs[slug] = (hasProp.call(slugs, slug) ? slugs[slug] : 0) + 1
 
   // First slug, return as is.
   if (slugs[slug] === 1) {
-    return slug;
+    return slug
   }
 
   // Duplicate slug, add a `-2`, `-3`, etc. to keep ID unique.
-  return slug + '-' + slugs[slug];
-};
+  return slug + '-' + slugs[slug]
+}
 
-var anchor = function anchor(md, opts) {
-  opts = _extends({}, anchor.defaults, opts);
+const isLevelSelectedNumber = selection => level => level >= selection
+const isLevelSelectedArray = selection => level => selection.includes(level)
 
-  md.core.ruler.push('anchor', function (state) {
-    var slugs = {};
-    var tokens = state.tokens;
+const anchor = (md, opts) => {
+  opts = Object.assign({}, anchor.defaults, opts)
 
-    tokens.filter(function (token) {
-      return token.type === 'heading_open';
-    }).filter(function (token) {
-      return token.tag.substr(1) >= opts.level;
-    }).forEach(function (token) {
-      // Aggregate the next token children text.
-      var title = tokens[tokens.indexOf(token) + 1].children.filter(function (token) {
-        return token.type === 'text';
-      }).reduce(function (acc, t) {
-        return acc + t.content;
-      }, '');
+  md.core.ruler.push('anchor', state => {
+    const slugs = {}
+    const tokens = state.tokens
 
-      var slug = token.attrGet('id');
+    const isLevelSelected = Array.isArray(opts.level)
+      ? isLevelSelectedArray(opts.level)
+      : isLevelSelectedNumber(opts.level)
 
-      if (slug == null) {
-        slug = uniqueSlug(opts.slugify(title), slugs);
-        token.attrPush(['id', slug]);
-      }
+    tokens
+      .filter(token => token.type === 'heading_open')
+      .filter(token => isLevelSelected(Number(token.tag.substr(1))))
+      .forEach(token => {
+        // Aggregate the next token children text.
+        const title = tokens[tokens.indexOf(token) + 1].children
+          .filter(token => token.type === 'text' || token.type === 'code_inline')
+          .reduce((acc, t) => acc + t.content, '')
 
-      if (opts.permalink) {
-        opts.renderPermalink(slug, opts, state, tokens.indexOf(token));
-      }
+        let slug = token.attrGet('id')
 
-      if (opts.callback) {
-        opts.callback(token, { slug: slug, title: title });
-      }
-    });
-  });
-};
+        if (slug == null) {
+          slug = uniqueSlug(opts.slugify(title), slugs)
+          token.attrPush(['id', slug])
+        }
+
+        if (opts.permalink) {
+          opts.renderPermalink(slug, opts, state, tokens.indexOf(token))
+        }
+
+        if (opts.callback) {
+          opts.callback(token, { slug, title })
+        }
+      })
+  })
+}
 
 anchor.defaults = {
   level: 1,
-  slugify: slugify,
+  slugify,
   permalink: false,
-  renderPermalink: renderPermalink,
+  renderPermalink,
   permalinkClass: 'header-anchor',
   permalinkSymbol: '¶',
   permalinkBefore: false,
-  permalinkHref: permalinkHref
-};
+  permalinkHref
+}
 
-exports.default = anchor;
-module.exports = exports['default'];
+module.exports = anchor
