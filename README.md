@@ -1,4 +1,7 @@
-# markdown-it-anchor [![npm version](http://img.shields.io/npm/v/markdown-it-anchor.svg?style=flat-square)](https://www.npmjs.org/package/markdown-it-anchor)
+# markdown-it-anchor 
+
+[![Build Status](https://img.shields.io/travis/GerHobbelt/markdown-it-anchor/master.svg?style=flat)](https://travis-ci.org/GerHobbelt/markdown-it-anchor)
+[![npm version](http://img.shields.io/npm/v/markdown-it-anchor.svg?style=flat-square)](https://www.npmjs.org/package/markdown-it-anchor)
 
 > Header anchors for [markdown-it].
 
