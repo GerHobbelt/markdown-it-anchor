@@ -1,6 +1,7 @@
-const md = require('markdown-it')()
-//const anchor = require('markdown-it-anchor')
-const anchor = require('../')
+
+const md = require('markdown-it')();
+//const anchor = require('markdown-it-anchor');
+const anchor = require('../');
 
 md.use(anchor, {
   level: 1,
@@ -10,7 +11,7 @@ md.use(anchor, {
   permalinkClass: 'header-anchor',
   permalinkSymbol: '¶',
   permalinkBefore: false
-})
+});
 
 const src = `# First header
 
@@ -18,6 +19,6 @@ Lorem ipsum.
 
 ## Next section!
 
-This is totaly awesome.`
+This is totaly awesome.`;
 
-console.log(md.render(src))
+console.log(md.render(src));

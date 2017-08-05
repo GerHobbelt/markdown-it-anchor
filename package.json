@@ -22,17 +22,19 @@
     "url": "https://github.com/valeriangalliat/markdown-it-anchor.git"
   },
   "scripts": {
-    "lint": "standard",
-    "prepublish": "npm test",
-    "test": "npm run lint && node test/test"
+    "test": "make test",
+    "build": "make"
   },
   "dependencies": {
     "string": "3.3.3"
   },
   "devDependencies": {
+    "browserify": "14.4.0",
+    "eslint": "4.3.0",
+    "istanbul": "0.4.5",
     "markdown-it": "GerHobbelt/markdown-it#master",
     "markdown-it-attrs": "GerHobbelt/markdown-it-attrs#master",
-    "standard": "10.0.2"
+    "uglify-js": "3.0.27"
   },
   "tonicExampleFilename": "demo/demo.js"
 }

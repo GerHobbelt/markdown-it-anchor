@@ -18,11 +18,11 @@ lint:
 	eslint .
 
 test: lint
-	mocha
+	node test/test.js
 
 coverage:
 	-rm -rf coverage
-	istanbul cover node_modules/mocha/bin/_mocha
+	istanbul cover test/test.js
 
 report-coverage: coverage
 
@@ -31,7 +31,7 @@ browserify:
 	mkdir dist
 	# Browserify
 	( printf "/*! ${NPM_PACKAGE} ${NPM_VERSION} ${GITHUB_PROJ} @license MIT */" ; \
-		browserify ./ -s markdownitAbbr \
+		browserify ./ -s markdownitAnchor \
 		) > dist/${NPM_PACKAGE}.js
 
 minify: browserify
