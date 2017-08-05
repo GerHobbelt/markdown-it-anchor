@@ -15,7 +15,7 @@
     "README.md",
     "UNLICENSE",
     "index.js",
-    "demo.js"
+    "demo/demo.js"
   ],
   "repository": {
     "type": "git",
@@ -24,15 +24,15 @@
   "scripts": {
     "lint": "standard",
     "prepublish": "npm test",
-    "test": "npm run lint && node test"
+    "test": "npm run lint && node test/test"
   },
   "dependencies": {
-    "string": "^3.3.3"
+    "string": "3.3.3"
   },
   "devDependencies": {
-    "markdown-it": "github:GerHobbelt/markdown-it",
-    "markdown-it-attrs": "github:GerHobbelt/markdown-it-attrs",
+    "markdown-it": "GerHobbelt/markdown-it#master",
+    "markdown-it-attrs": "GerHobbelt/markdown-it-attrs#master",
     "standard": "10.0.2"
   },
-  "tonicExampleFilename": "demo.js"
+  "tonicExampleFilename": "demo/demo.js"
 }
