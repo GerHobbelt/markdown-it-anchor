@@ -1,5 +1,6 @@
 const md = require('markdown-it')()
-const anchor = require('markdown-it-anchor')
+//const anchor = require('markdown-it-anchor')
+const anchor = require('../')
 
 md.use(anchor, {
   level: 1,
