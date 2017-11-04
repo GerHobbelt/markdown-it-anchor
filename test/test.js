@@ -1,7 +1,7 @@
 
 const { equal } = require('assert');
-const md = require('markdown-it');
-const attrs = require('markdown-it-attrs');
+const md = require('@gerhobbelt/markdown-it');
+const attrs = require('@gerhobbelt/markdown-it-attrs');
 const anchor = require('../');
 
 equal(

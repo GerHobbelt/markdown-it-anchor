@@ -1,7 +1,7 @@
 # markdown-it-anchor 
 
 [![Build Status](https://img.shields.io/travis/GerHobbelt/markdown-it-anchor/master.svg?style=flat)](https://travis-ci.org/GerHobbelt/markdown-it-anchor)
-[![npm version](http://img.shields.io/npm/v/markdown-it-anchor.svg?style=flat-square)](https://www.npmjs.org/package/markdown-it-anchor)
+[![npm version](http://img.shields.io/npm/v/@gerhobbelt/markdown-it-anchor.svg?style=flat-square)](https://www.npmjs.org/package/@gerhobbelt/markdown-it-anchor)
 
 > Header anchors for [markdown-it].
 
@@ -52,3 +52,8 @@ The `callback` option is a function that will be called at the end of
 rendering with the `token` and an `info` object.  The `info` object has
 `title` and `slug` properties with the token content and the slug used
 for the identifier.
+
+
+## License
+
+[UNLICENSE](https://github.com/GerHobbelt/markdown-it-anchor/blob/master/UNLICENSE)

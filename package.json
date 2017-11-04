@@ -1,6 +1,6 @@
 {
-  "name": "markdown-it-anchor",
-  "version": "4.0.0-10",
+  "name": "@gerhobbelt/markdown-it-anchor",
+  "version": "4.0.0-11",
   "description": "Header anchors for markdown-it.",
   "keywords": [
     "markdown-it-plugin",
@@ -22,27 +22,28 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/valeriangalliat/markdown-it-anchor.git"
+    "url": "https://github.com/GerHobbelt/markdown-it-anchor.git"
   },
   "engines": {
     "node": ">=4.0"
   },
-  "license": "Unlicense",
+  "license": "UNLICENSE",
   "main": "index.js",
   "scripts": {
     "test": "make test",
-    "build": "make"
+    "build": "make",
+    "pub": "npm publish --access public"
   },
   "dependencies": {
     "string": "3.3.3"
   },
   "devDependencies": {
-    "browserify": "14.4.0",
-    "eslint": "4.3.0",
+    "browserify": "14.5.0",
+    "eslint": "4.10.0",
     "istanbul": "0.4.5",
-    "markdown-it": "GerHobbelt/markdown-it#master",
-    "markdown-it-attrs": "GerHobbelt/markdown-it-attrs#master",
-    "uglify-js": "3.0.27"
+    "@gerhobbelt/markdown-it": "8.4.0-16",
+    "@gerhobbelt/markdown-it-attrs": "0.8.1-8",
+    "uglify-js": "3.1.6"
   },
   "tonicExampleFilename": "demo/demo.js"
 }

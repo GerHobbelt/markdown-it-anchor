@@ -1,6 +1,6 @@
 
-const md = require('markdown-it')();
-//const anchor = require('markdown-it-anchor');
+const md = require('@gerhobbelt/markdown-it')();
+//const anchor = require('@gerhobbelt/markdown-it-anchor');
 const anchor = require('../');
 
 md.use(anchor, {
