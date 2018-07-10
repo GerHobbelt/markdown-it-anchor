@@ -1,4 +1,4 @@
-const slugify = (s) => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'))
+const slugify = (s) => encodeURIComponent(String(s).trim().replace(/\s+/g, '-'))
 
 const position = {
   false: 'push',
@@ -90,4 +90,4 @@ anchor.defaults = {
   permalinkHref
 }
 
-module.exports = anchor
+// module.exports = anchor
