@@ -41,7 +41,7 @@ const uniqueSlug = (slug, slugs) => {
 const isLevelSelectedNumber = selection => level => level >= selection
 const isLevelSelectedArray = selection => level => selection.includes(level)
 
-const anchor = (md, opts) => {
+window.anchor = (md, opts) => {
   opts = Object.assign({}, anchor.defaults, opts)
 
   md.core.ruler.push('anchor', state => {
