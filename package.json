@@ -1,39 +1,35 @@
 {
   "name": "@gerhobbelt/markdown-it-anchor",
-  "version": "4.0.0-11",
+  "version": "5.2.5-12",
   "description": "Header anchors for markdown-it.",
   "keywords": [
+    "markdown",
+    "markdown-it",
     "markdown-it-plugin",
     "markdown-it",
     "markdown",
-    "header-anchor",
+    "header",
     "anchor"
   ],
-  "author": {
-    "name": "Valérian Galliat",
-    "url": "http://val.codejam.info/"
-  },
   "repository": "GerHobbelt/markdown-it-anchor",
   "engines": {
     "node": ">=10.0"
   },
   "license": "UNLICENSE",
-  "main": "index.js",
+  "source": "index.js",
+  "main": "dist/markdownItAnchor.js",
+  "module": "dist/markdownItAnchor.mjs",
   "scripts": {
-    "build": "make",
     "test": "make test",
     "todo": "make todo",
     "clean": "make clean",
     "superclean": "make superclean",
-    "doc": "make doc",
-    "lint": "make lint",
+    "lint": "standard",
     "lintfix": "make lintfix",
     "cov": "make report-coverage",
     "pub": "npm publish --access public"
   },
-  "dependencies": {
-    "string": "3.3.3"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@gerhobbelt/markdown-it": "10.0.0-34",
     "@gerhobbelt/markdown-it-attrs": "^3.0.2-14",

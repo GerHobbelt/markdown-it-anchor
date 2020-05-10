@@ -1,29 +1,24 @@
 'use strict';
 
-const string = require('string');
-
-const slugify = s =>
-  string(s).slugify().toString();
+const slugify = (s) => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'))
 
 const position = {
   'false': 'push',
   'true': 'unshift'
 };
 
-const hasProp = ({}).hasOwnProperty;
+const hasProp = Object.prototype.hasOwnProperty
 
 const permalinkHref = slug => `#${slug}`;
 
 const renderPermalink = (slug, opts, state, idx) => {
-  const space = () =>
-    Object.assign(new state.Token('text', '', 0), { content: ' ' });
+  const space = () => Object.assign(new state.Token('text', '', 0), { content: ' ' })
 
   const linkTokens = [
     Object.assign(new state.Token('link_open', 'a', 1), {
       attrs: [
         [ 'class', opts.permalinkClass ],
-        [ 'href', opts.permalinkHref(slug, state) ],
-        [ 'aria-hidden', 'true' ]
+        ['href', opts.permalinkHref(slug, state)]
       ]
     }),
     Object.assign(new state.Token('html_block', '', 0), { content: opts.permalinkSymbol }),
@@ -32,22 +27,19 @@ const renderPermalink = (slug, opts, state, idx) => {
 
   // `push` or `unshift` according to position option.
   // Space is at the opposite side.
+  if (opts.permalinkSpace) {
   linkTokens[position[!opts.permalinkBefore]](space());
+  }
   state.tokens[idx + 1].children[position[opts.permalinkBefore]](...linkTokens);
 };
 
 const uniqueSlug = (slug, slugs) => {
-  // Mark this slug as used in the environment.
-  slugs[slug] = (hasProp.call(slugs, slug) ? slugs[slug] : 0) + 1;
-
-  // First slug, return as is.
-  if (slugs[slug] === 1) {
-    return slug;
-  }
-
-  // Duplicate slug, add a `-2`, `-3`, etc. to keep ID unique.
-  return slug + '-' + slugs[slug];
-};
+  let uniq = slug
+  let i = 2
+  while (hasProp.call(slugs, uniq)) uniq = `${slug}-${i++}`
+  slugs[uniq] = true
+  return uniq
+}
 
 const isLevelSelectedNumber = selection => level => level >= selection;
 const isLevelSelectedArray = selection => level => selection.includes(level);
@@ -68,7 +60,8 @@ const anchor = (md, opts) => {
       .filter(token => isLevelSelected(Number(token.tag.substr(1))))
       .forEach(token => {
         // Aggregate the next token children text.
-        const title = tokens[tokens.indexOf(token) + 1].children
+        const title = tokens[tokens.indexOf(token) + 1]
+          .children
           .filter(child_token => child_token.type === 'text' || child_token.type === 'code_inline')
           .reduce((acc, t) => acc + t.content, '');
 
@@ -96,9 +89,10 @@ anchor.defaults = {
   permalink: false,
   renderPermalink,
   permalinkClass: 'header-anchor',
+  permalinkSpace: true,
   permalinkSymbol: '¶',
   permalinkBefore: false,
   permalinkHref
 };
 
-module.exports = anchor;
+export default anchor

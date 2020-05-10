@@ -1,8 +1,41 @@
-# [Changelog](http://keepachangelog.com/)
+# Changelog
+All notable changes to this project will be documented in this file.
 
-This project adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased][unreleased]
+
+## [5.2.5] - 2019-10-16
+* removing `aria-hidden` from links ([#58])
+
+## [5.2.4] - 2019-06-03
+* rolled back to `...linkTokens`
+* executed `npm audit fix` to fix dependencies vunerabilities
+
+## [5.2.3] - 2019-05-28
+* `...linkTokens` -> `(...).apply(null, linkTokens)` IE doesn't support spread syntax.
+
+## [5.2.2] - 2019-05-28
+* `...linkTokens` -> `[].concat(linkTokens)` makes IE compatible.
+
+## [5.2.1] - 2019-05-28
+* fix typo
+
+## [5.2.0] - 2019-05-28
+* Added support for unpkg
+* Added support for mjs
+* Fixes: [#40] and [#46]
+* New option `permalinkSpace` makes possible to suppress the whitespace between the permalink and the header text value. Defaults to `true` ([#52])
+* Patch to fix ([#35])
+
+## [5.0.1] - 2018-06-14
+* `trim()` before `toLowerCase()` to prevent dashes as prefixes and suffixes.
+
+## [5.0.0] - 2018-06-14
+* NEW Contributor: nagaozen
+* Drop `string` package in favour of `encodeURIComponent`.  
+  Fixes: [#44], [#43], [#38], [#17]. Obsoletes [#45].
 
 ## [4.0.0] - 2017-02-26
 * Drop Babel. This drops support for Node.js versions that doesn't
@@ -82,7 +115,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 1.0.0 - 2015-03-18
 * Initial release.
 
-[unreleased]: https://github.com/valeriangalliat/markdown-it-anchor/compare/v4.0.0...HEAD
+[unreleased]: https://github.com/valeriangalliat/markdown-it-anchor/compare/v5.2.4...HEAD
+[5.2.4]: https://github.com/valeriangalliat/markdown-it-anchor/compare/v5.2.3...v5.2.4
+[5.2.3]: https://github.com/valeriangalliat/markdown-it-anchor/compare/v5.2.2...v5.2.3
+[5.2.2]: https://github.com/valeriangalliat/markdown-it-anchor/compare/v5.2.1...v5.2.2
+[5.2.1]: https://github.com/valeriangalliat/markdown-it-anchor/compare/v5.2.0...v5.2.1
+[5.2.0]: https://github.com/valeriangalliat/markdown-it-anchor/compare/v5.0.1...v5.2.0
+[5.0.1]: https://github.com/valeriangalliat/markdown-it-anchor/compare/v5.0.0...v5.0.1
+[5.0.0]: https://github.com/valeriangalliat/markdown-it-anchor/compare/v4.0.0...v5.0.0
 [4.0.0]: https://github.com/valeriangalliat/markdown-it-anchor/compare/v3.0.0...v4.0.0
 [3.0.0]: https://github.com/valeriangalliat/markdown-it-anchor/compare/v2.5.1...v3.0.0
 [2.5.1]: https://github.com/valeriangalliat/markdown-it-anchor/compare/v2.5.0...v2.5.1
@@ -109,6 +149,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [#12]: https://github.com/valeriangalliat/markdown-it-anchor/issues/12
 [#13]: https://github.com/valeriangalliat/markdown-it-anchor/issues/13
 [#16]: https://github.com/valeriangalliat/markdown-it-anchor/issues/16
+[#17]: https://github.com/valeriangalliat/markdown-it-anchor/issues/17
 [#18]: https://github.com/valeriangalliat/markdown-it-anchor/issues/18
 [#22]: https://github.com/valeriangalliat/markdown-it-anchor/pull/22
 [#27]: https://github.com/valeriangalliat/markdown-it-anchor/issues/27
+[#35]: https://github.com/valeriangalliat/markdown-it-anchor/issues/35
+[#38]: https://github.com/valeriangalliat/markdown-it-anchor/issues/38
+[#40]: https://github.com/valeriangalliat/markdown-it-anchor/issues/40
+[#43]: https://github.com/valeriangalliat/markdown-it-anchor/issues/43
+[#44]: https://github.com/valeriangalliat/markdown-it-anchor/issues/44
+[#45]: https://github.com/valeriangalliat/markdown-it-anchor/pull/45
+[#45]: https://github.com/valeriangalliat/markdown-it-anchor/issues/46
+[#58]: https://github.com/valeriangalliat/markdown-it-anchor/issues/58
