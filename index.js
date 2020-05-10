@@ -1,25 +1,25 @@
 'use strict';
 
-const slugify = (s) => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'))
+const slugify = (s) => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'));
 
 const position = {
   'false': 'push',
   'true': 'unshift'
 };
 
-const hasProp = Object.prototype.hasOwnProperty
+const hasProp = Object.prototype.hasOwnProperty;
 
 const permalinkHref = slug => `#${slug}`;
-const permalinkAttrs = slug => ({})
+const permalinkAttrs = slug => ({});
 
 const renderPermalink = (slug, opts, state, idx) => {
-  const space = () => Object.assign(new state.Token('text', '', 0), { content: ' ' })
+  const space = () => Object.assign(new state.Token('text', '', 0), { content: ' ' });
 
   const linkTokens = [
     Object.assign(new state.Token('link_open', 'a', 1), {
       attrs: [
         [ 'class', opts.permalinkClass ],
-        ['href', opts.permalinkHref(slug, state)],
+        [ 'href', opts.permalinkHref(slug, state) ],
         ...Object.entries(opts.permalinkAttrs(slug, state))
       ]
     }),
@@ -30,20 +30,25 @@ const renderPermalink = (slug, opts, state, idx) => {
   // `push` or `unshift` according to position option.
   // Space is at the opposite side.
   if (opts.permalinkSpace) {
-  linkTokens[position[!opts.permalinkBefore]](space());
+    linkTokens[position[!opts.permalinkBefore]](space());
   }
   state.tokens[idx + 1].children[position[opts.permalinkBefore]](...linkTokens);
 };
 
 const uniqueSlug = (slug, slugs) => {
-  let uniq = slug
-  let i = 2
-  while (hasProp.call(slugs, uniq)) uniq = `${slug}-${i++}`
-  slugs[uniq] = true
-  return uniq
-}
+  // Mark this slug as used in the environment.
+  slugs[slug] = (hasProp.call(slugs, slug) ? slugs[slug] : 0) + 1;
 
-const isLevelSelectedNumber = selection => level => level >= selection;
+  // First slug, return as is.
+  if (slugs[slug] === 1) {
+    return slug;
+  }
+
+  // Duplicate slug, add a `-2`, `-3`, etc. to keep ID unique.
+  return `${slug}-${slugs[slug]}`;
+};
+
+const isLevelSelectedNumber = selection => level => level <= selection;
 const isLevelSelectedArray = selection => level => selection.includes(level);
 
 const anchor = (md, opts) => {
@@ -86,7 +91,7 @@ const anchor = (md, opts) => {
 };
 
 anchor.defaults = {
-  level: 1,
+  level: 6,
   slugify,
   permalink: false,
   renderPermalink,
@@ -98,4 +103,4 @@ anchor.defaults = {
   permalinkAttrs
 };
 
-export default anchor
+module.exports = anchor;

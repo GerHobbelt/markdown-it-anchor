@@ -20,7 +20,7 @@ The `opts` object can contain:
 
 Name              | Description                                                    | Default
 ------------------|----------------------------------------------------------------|-----------------------------------
-`level`           | Minimum level to apply anchors on or array of selected levels. | 1
+`level`           | Maximum level to apply anchors on or array of selected levels. | 6
 `slugify`         | A custom slugification function.                               | See [`index.js`](index.js)
 `permalink`       | Whether to add permalinks next to titles.                      | `false`
 `renderPermalink` | A custom permalink rendering function.                         | See [`index.js`](index.js)
@@ -36,7 +36,7 @@ The `renderPermalink` function takes the slug, an options object with
 the above options, and then all the usual markdown-it rendering
 arguments.
 
-All headers above `level` will then have an `id` attribute with a slug
+All headers at or below `level` will then have an `id` attribute with a slug
 of their content. `level` can also be an array of headers levels to
 apply the anchor, like `[2, 3]` to have an anchor on only level 2 and
 3 headers.

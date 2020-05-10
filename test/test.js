@@ -16,8 +16,8 @@ equal(
 );
 
 equal(
-  md().use(anchor, { level: 2 }).render('# H1\n\n## H2'),
-  '<h1>H1</h1>\n<h2 id="h2">H2</h2>\n'
+  md().use(anchor, { level: 1 }).render('# H1\n\n## H2'),
+  '<h1 id="h1">H1</h1>\n<h2>H2</h2>\n'
 );
 
 equal(
@@ -57,7 +57,12 @@ equal(
 
 equal(
   md().use(anchor, { level: 2, permalink: true }).render('# H1\n\n## H2'),
-  '<h1>H1</h1>\n<h2 id="h2">H2 <a class="header-anchor" href="#h2">¶</a></h2>\n'
+  '<h1 id="h1">H1 <a class="header-anchor" href="#h1">¶</a></h1>\n<h2 id="h2">H2 <a class="header-anchor" href="#h2">¶</a></h2>\n'
+);
+
+equal(
+  md().use(anchor, { level: 2, permalink: true }).render('# H1\n\n## H2\n\n### H3'),
+  '<h1 id="h1">H1 <a class="header-anchor" href="#h1">¶</a></h1>\n<h2 id="h2">H2 <a class="header-anchor" href="#h2">¶</a></h2>\n<h3>H3</h3>\n'
 );
 
 equal(
@@ -97,16 +102,16 @@ equal(calls[1].info.slug, 'second-heading');
 equal(
   md({ html: true }).use(anchor, { permalink: true, permalinkSpace: false }).render('# H1'),
   '<h1 id="h1">H1<a class="header-anchor" href="#h1">¶</a></h1>\n'
-)
+);
 
 equal(
   md({ html: true }).use(anchor, { permalink: false, permalinkSpace: false }).render('# H1'),
   '<h1 id="h1">H1</h1>\n'
-)
+);
 
 equal(
   md()
-    .use(anchor, { permalink: true, permalinkAttrs: (slug, state) => ({ "aria-label": `permalink to ${slug}`, title: "permalink" }) })
-    .render("# My title"),
+    .use(anchor, { permalink: true, permalinkAttrs: (slug, state) => ({ 'aria-label': `permalink to ${slug}`, title: 'permalink' }) })
+    .render('# My title'),
   '<h1 id="my-title">My title <a class="header-anchor" href="#my-title" aria-label="permalink to my-title" title="permalink">¶</a></h1>\n'
 );
