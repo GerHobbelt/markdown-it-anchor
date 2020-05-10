@@ -11,7 +11,7 @@ equal(
 );
 
 equal(
-  md().use(attrs, anchor).render('# H1 {id=bubblegum}\n\n## H2 {id=shoelaces}'),
+  md().use(attrs).use(anchor).render('# H1 {id=bubblegum}\n\n## H2 {id=shoelaces}'),
   '<h1 id="bubblegum">H1</h1>\n<h2 id="shoelaces">H2</h2>\n'
 );
 
@@ -83,14 +83,6 @@ equal(
   '<h1 id="first-heading">First Heading</h1>\n<h2 id="second-heading">Second Heading</h2>\n'
 );
 
-equal(
-  md().use(anchor, {
-    permalinkHref: (slug, state) => `${state.env.path}#${slug}`,
-    permalink: true
-  }).render('# H1', { path: 'file.html' }),
-  '<h1 id="h1">H1 <a class="header-anchor" href="file.html#h1">¶</a></h1>\n'
-);
-
 equal(calls.length, 2);
 equal(calls[0].token.tag, 'h1');
 equal(calls[0].info.title, 'First Heading');
@@ -98,6 +90,14 @@ equal(calls[0].info.slug, 'first-heading');
 equal(calls[1].token.tag, 'h2');
 equal(calls[1].info.title, 'Second Heading');
 equal(calls[1].info.slug, 'second-heading');
+
+equal(
+  md().use(anchor, {
+    permalinkHref: (slug, state) => `${state.env.path}#${slug}`,
+    permalink: true
+  }).render('# H1', { path: 'file.html' }),
+  '<h1 id="h1">H1 <a class="header-anchor" href="file.html#h1">¶</a></h1>\n'
+);
 
 equal(
   md({ html: true }).use(anchor, { permalink: true, permalinkSpace: false }).render('# H1'),
@@ -114,4 +114,31 @@ equal(
     .use(anchor, { permalink: true, permalinkAttrs: (slug, state) => ({ 'aria-label': `permalink to ${slug}`, title: 'permalink' }) })
     .render('# My title'),
   '<h1 id="my-title">My title <a class="header-anchor" href="#my-title" aria-label="permalink to my-title" title="permalink">¶</a></h1>\n'
+);
+
+equal(
+  (() => {
+    try {
+      return md().use(attrs).use(anchor).render('# H1 {id=bubblegum}\n\n## H2 {id=bubblegum}');
+    } catch (ex) {
+      return ex.message;
+    }
+  })(),
+  "Defined slug/ID 'bubblegum' is not unique. Please fix this ID duplication."
+);
+
+equal(
+  md().use(attrs).use(anchor).render('# H1 {id=h2}\n\n## H2'),
+  '<h1 id="h2">H1</h1>\n<h2 id="h2-2">H2</h2>\n'
+);
+
+equal(
+  (() => {
+    try {
+      return md().use(attrs).use(anchor).render('# H1\n\n## H2 {id=h1}');
+    } catch (ex) {
+      return ex.message;
+    }
+  })(),
+  "Defined slug/ID 'h1' is not unique. Please fix this ID duplication."
 );
