@@ -9,41 +9,51 @@
     "header-anchor",
     "anchor"
   ],
-  "homepage": "https://github.com/valeriangalliat/markdown-it-anchor",
   "author": {
     "name": "Valérian Galliat",
     "url": "http://val.codejam.info/"
   },
-  "files": [
-    "README.md",
-    "UNLICENSE",
-    "index.js",
-    "demo/demo.js"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/GerHobbelt/markdown-it-anchor.git"
-  },
+  "repository": "GerHobbelt/markdown-it-anchor",
   "engines": {
-    "node": ">=4.0"
+    "node": ">=10.0"
   },
   "license": "UNLICENSE",
   "main": "index.js",
   "scripts": {
-    "test": "make test",
     "build": "make",
+    "test": "make test",
+    "todo": "make todo",
+    "clean": "make clean",
+    "superclean": "make superclean",
+    "doc": "make doc",
+    "lint": "make lint",
+    "lintfix": "make lintfix",
+    "cov": "make report-coverage",
     "pub": "npm publish --access public"
   },
   "dependencies": {
     "string": "3.3.3"
   },
   "devDependencies": {
-    "browserify": "14.5.0",
-    "eslint": "4.10.0",
-    "istanbul": "0.4.5",
-    "@gerhobbelt/markdown-it": "8.4.0-16",
-    "@gerhobbelt/markdown-it-attrs": "0.8.1-8",
-    "uglify-js": "3.1.6"
+    "@gerhobbelt/markdown-it": "10.0.0-34",
+    "@gerhobbelt/markdown-it-attrs": "^3.0.2-14",
+    "@gerhobbelt/markdown-it-testgen": "0.1.6-7",
+    "browserify": "16.5.1",
+    "chai": "4.2.0",
+    "cross-env": "7.0.2",
+    "eslint": "7.0.0",
+    "mocha": "7.1.2",
+    "nyc": "15.0.1",
+    "rollup": "2.8.2",
+    "rollup-plugin-commonjs": "10.1.0",
+    "rollup-plugin-json": "4.0.0",
+    "rollup-plugin-node-resolve": "5.2.0",
+    "terser": "4.6.13"
   },
-  "tonicExampleFilename": "demo/demo.js"
+  "tonicExampleFilename": "demo/demo.js",
+  "reporter": [
+    "lcov",
+    "text",
+    "text-summary"
+  ]
 }

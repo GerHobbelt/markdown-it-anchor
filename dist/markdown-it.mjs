@@ -1,124 +1,23 @@
-/*! markdown-it-anchor 4.0.0-11 https://github.com//GerHobbelt/markdown-it-anchor @license MIT */(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.markdownitAnchor = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-'use strict';
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-const string = require('string');
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
 
-const slugify = s =>
-  string(s).slugify().toString();
-
-const position = {
-  'false': 'push',
-  'true': 'unshift'
-};
-
-const hasProp = ({}).hasOwnProperty;
-
-const permalinkHref = slug => `#${slug}`;
-
-const renderPermalink = (slug, opts, state, idx) => {
-  const space = () =>
-    Object.assign(new state.Token('text', '', 0), { content: ' ' });
-
-  const linkTokens = [
-    Object.assign(new state.Token('link_open', 'a', 1), {
-      attrs: [
-        [ 'class', opts.permalinkClass ],
-        [ 'href', opts.permalinkHref(slug, state) ],
-        [ 'aria-hidden', 'true' ]
-      ]
-    }),
-    Object.assign(new state.Token('html_block', '', 0), { content: opts.permalinkSymbol }),
-    new state.Token('link_close', 'a', -1)
-  ];
-
-  // `push` or `unshift` according to position option.
-  // Space is at the opposite side.
-  linkTokens[position[!opts.permalinkBefore]](space());
-  state.tokens[idx + 1].children[position[opts.permalinkBefore]](...linkTokens);
-};
-
-const uniqueSlug = (slug, slugs) => {
-  // Mark this slug as used in the environment.
-  slugs[slug] = (hasProp.call(slugs, slug) ? slugs[slug] : 0) + 1;
-
-  // First slug, return as is.
-  if (slugs[slug] === 1) {
-    return slug;
-  }
-
-  // Duplicate slug, add a `-2`, `-3`, etc. to keep ID unique.
-  return slug + '-' + slugs[slug];
-};
-
-const isLevelSelectedNumber = selection => level => level >= selection;
-const isLevelSelectedArray = selection => level => selection.includes(level);
-
-const anchor = (md, opts) => {
-  opts = Object.assign({}, anchor.defaults, opts);
-
-  md.core.ruler.push('anchor', state => {
-    const slugs = {};
-    const tokens = state.tokens;
-
-    const isLevelSelected = Array.isArray(opts.level)
-      ? isLevelSelectedArray(opts.level)
-      : isLevelSelectedNumber(opts.level);
-
-    tokens
-      .filter(token => token.type === 'heading_open')
-      .filter(token => isLevelSelected(Number(token.tag.substr(1))))
-      .forEach(token => {
-        // Aggregate the next token children text.
-        const title = tokens[tokens.indexOf(token) + 1].children
-          .filter(child_token => child_token.type === 'text' || child_token.type === 'code_inline')
-          .reduce((acc, t) => acc + t.content, '');
-
-        let slug = token.attrGet('id');
-
-        if (slug == null) {
-          slug = uniqueSlug(opts.slugify(title), slugs);
-          token.attrPush([ 'id', slug ]);
-        }
-
-        if (opts.permalink) {
-          opts.renderPermalink(slug, opts, state, tokens.indexOf(token));
-        }
-
-        if (opts.callback) {
-          opts.callback(token, { slug, title });
-        }
-      });
-  });
-};
-
-anchor.defaults = {
-  level: 1,
-  slugify,
-  permalink: false,
-  renderPermalink,
-  permalinkClass: 'header-anchor',
-  permalinkSymbol: '¶',
-  permalinkBefore: false,
-  permalinkHref
-};
-
-module.exports = anchor;
-
-},{"string":5}],2:[function(require,module,exports){
 function count(self, substr) {
-  var count = 0
-  var pos = self.indexOf(substr)
+  var count = 0;
+  var pos = self.indexOf(substr);
 
   while (pos >= 0) {
-    count += 1
-    pos = self.indexOf(substr, pos + 1)
+    count += 1;
+    pos = self.indexOf(substr, pos + 1);
   }
 
   return count
 }
 
-module.exports = count
-},{}],3:[function(require,module,exports){
+var _count = count;
+
 function splitLeft(self, sep, maxSplit, limit) {
 
   if (typeof maxSplit === 'undefined') {
@@ -145,9 +44,8 @@ function splitLeft(self, sep, maxSplit, limit) {
 
 }
 
-module.exports = splitLeft;
+var _splitLeft = splitLeft;
 
-},{}],4:[function(require,module,exports){
 function splitRight(self, sep, maxSplit, limit) {
 
   if (typeof maxSplit === 'undefined') {
@@ -166,7 +64,7 @@ function splitRight(self, sep, maxSplit, limit) {
       (splitResult.length <= maxSplit || maxSplit === -1)
     ) {
       splitResult.splice(1, 0, splitResult[0].slice(i+sep.length)); // insert
-      splitResult[0] = splitResult[0].slice(0, i)
+      splitResult[0] = splitResult[0].slice(0, i);
     }
   }
 
@@ -178,15 +76,14 @@ function splitRight(self, sep, maxSplit, limit) {
 
 }
 
-module.exports = splitRight;
+var _splitRight = splitRight;
 
-},{}],5:[function(require,module,exports){
+var string = createCommonjsModule(function (module) {
 /*
 string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
 */
 
 !(function() {
-  "use strict";
 
   var VERSION = '3.3.3';
 
@@ -229,7 +126,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
       if (object.__defineGetter__) {
         object.__defineGetter__('length', function() {
           return object.s.length;
-        })
+        });
       } else {
         object.length = s.length;
       }
@@ -304,7 +201,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
     },
 
     count: function(ss) {
-      return require('./_count')(this.s, ss)
+      return _count(this.s, ss)
     },
 
     //#modified from https://github.com/epeli/underscore.string
@@ -344,7 +241,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
         else {
           return m;
         }
-      })
+      });
 
       return new this.constructor(s);
     },
@@ -383,7 +280,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
     humanize: function() { //modified from underscore.string
       if (this.s === null || this.s === undefined)
         return new this.constructor('')
-      var s = this.underscore().replace(/_id$/,'').replace(/_/g, ' ').trim().capitalize()
+      var s = this.underscore().replace(/_id$/,'').replace(/_/g, ' ').trim().capitalize();
       return new this.constructor(s)
     },
 
@@ -447,7 +344,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
 
     parseCSV: function(delimiter, qualifier, escape, lineDelimiter) { //try to parse no matter what
       delimiter = delimiter || ',';
-      escape = escape || '\\'
+      escape = escape || '\\';
       if (typeof qualifier == 'undefined')
         qualifier = '"';
 
@@ -480,7 +377,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
             if (inField && qualifier)
               fieldBuffer.push(current);
             else {
-              fields.push(fieldBuffer.join(''))
+              fields.push(fieldBuffer.join(''));
               fieldBuffer.length = 0;
             }
             break;
@@ -488,7 +385,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
             if(inUnqualifiedString) {
               inField=false;
               inUnqualifiedString=false;
-              fields.push(fieldBuffer.join(''))
+              fields.push(fieldBuffer.join(''));
               rows.push(fields);
               fields = [];
               fieldBuffer.length = 0;
@@ -497,7 +394,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
               fieldBuffer.push(current);
             } else {
               if (rows) {
-                fields.push(fieldBuffer.join(''))
+                fields.push(fieldBuffer.join(''));
                 rows.push(fields);
                 fields = [];
                 fieldBuffer.length = 0;
@@ -531,16 +428,16 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
 
     replaceAll: function(ss, r) {
       //var s = this.s.replace(new RegExp(ss, 'g'), r);
-      var s = this.s.split(ss).join(r)
+      var s = this.s.split(ss).join(r);
       return new this.constructor(s);
     },
 
     splitLeft: function(sep, maxSplit, limit) {
-      return require('./_splitLeft')(this.s, sep, maxSplit, limit)
+      return _splitLeft(this.s, sep, maxSplit, limit)
     },
 
     splitRight: function(sep, maxSplit, limit) {
-      return require('./_splitRight')(this.s, sep, maxSplit, limit)
+      return _splitRight(this.s, sep, maxSplit, limit)
     },
 
     strip: function() {
@@ -626,13 +523,13 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
     },
 
     template: function(values, opening, closing) {
-      var s = this.s
-      var opening = opening || Export.TMPL_OPEN
-      var closing = closing || Export.TMPL_CLOSE
+      var s = this.s;
+      var opening = opening || Export.TMPL_OPEN;
+      var closing = closing || Export.TMPL_CLOSE;
 
-      var open = opening.replace(/[-[\]()*\s]/g, "\\$&").replace(/\$/g, '\\$')
-      var close = closing.replace(/[-[\]()*\s]/g, "\\$&").replace(/\$/g, '\\$')
-      var r = new RegExp(open + '(.+?)' + close, 'g')
+      var open = opening.replace(/[-[\]()*\s]/g, "\\$&").replace(/\$/g, '\\$');
+      var close = closing.replace(/[-[\]()*\s]/g, "\\$&").replace(/\$/g, '\\$');
+      var r = new RegExp(open + '(.+?)' + close, 'g');
         //, r = /\{\{(.+?)\}\}/g
       var matches = s.match(r) || [];
 
@@ -669,7 +566,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
     },
 
     toFloat: function(precision) {
-      var num = parseFloat(this.s)
+      var num = parseFloat(this.s);
       if (precision)
         return parseFloat(num.toFixed(precision))
       else
@@ -684,9 +581,9 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
     trim: function() {
       var s;
       if (typeof __nsp.trim === 'undefined')
-        s = this.s.replace(/(^\s*|\s*$)/g, '')
+        s = this.s.replace(/(^\s*|\s*$)/g, '');
       else
-        s = this.s.trim()
+        s = this.s.trim();
       return new this.constructor(s);
     },
 
@@ -766,7 +663,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
       var rep = escape + qualifier;
       var buildString = [];
       for (var i = 0; i < dataArray.length; ++i) {
-        var shouldQualify = hasVal(qualifier)
+        var shouldQualify = hasVal(qualifier);
         if (typeof dataArray[i] == 'number')
           shouldQualify &= encloseNumbers;
 
@@ -777,7 +674,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
           var d = new S(dataArray[i]).replaceAll(qualifier, rep).s;
           buildString.push(d);
         } else
-          buildString.push('')
+          buildString.push('');
 
         if (shouldQualify)
           buildString.push(qualifier);
@@ -829,7 +726,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
       s = wrapped.concat('<', el, elAttr, '>', this, '</', el, '>');
       return new this.constructor(s);
     }
-  }
+  };
 
   var methodsAdded = [];
   function extendPrototype() {
@@ -841,7 +738,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
           __nsp[name] = function() {
             String.prototype.s = this;
             return func.apply(this, arguments);
-          }
+          };
         }
       })(name);
     }
@@ -869,7 +766,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
             __sp[name] = function() {
               //console.log(name)
               return new this.constructor(stringProp.apply(this, arguments));
-            }
+            };
           } else {
             __sp[name] = stringProp;
           }
@@ -887,7 +784,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
   __sp.include = __sp.contains;
   __sp.toInteger = __sp.toInt;
   __sp.toBool = __sp.toBoolean;
-  __sp.decodeHTMLEntities = __sp.decodeHtmlEntities //ensure consistent casing scheme of 'HTML'
+  __sp.decodeHTMLEntities = __sp.decodeHtmlEntities; //ensure consistent casing scheme of 'HTML'
 
 
 //******************************************************************************
@@ -927,7 +824,6 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
       return results;
     } else { //meant for legacy cruft, this could probably be made more efficient
       var stringNames = {};
-      var objectNames = [];
       for (var name in String.prototype)
         stringNames[name] = name;
 
@@ -944,8 +840,7 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
 
   function Export(str) {
     return new S(str);
-  };
-
+  }
   //attach exports to StringJSWrapper
   Export.extendPrototype = extendPrototype;
   Export.restorePrototype = restorePrototype;
@@ -960,18 +855,9 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
 /* Exports
 /*************************************/
 
-  if (typeof module !== 'undefined'  && typeof module.exports !== 'undefined') {
+  {
     module.exports = Export;
 
-  } else {
-
-    if(typeof define === "function" && define.amd) {
-      define([], function() {
-        return Export;
-      });
-    } else {
-      window.S = Export;
-    }
   }
 
 
@@ -1285,10 +1171,111 @@ string.js - Copyright (C) 2012-2014, JP Richardson <jprichardson@gmail.com>
     "clubs;" : 9827,
     "hearts;" : 9829,
     "diams;" : 9830
+  };
+
+
+}).call(commonjsGlobal);
+});
+
+const slugify = s =>
+  string(s).slugify().toString();
+
+const position = {
+  'false': 'push',
+  'true': 'unshift'
+};
+
+const hasProp = ({}).hasOwnProperty;
+
+const permalinkHref = slug => `#${slug}`;
+
+const renderPermalink = (slug, opts, state, idx) => {
+  const space = () =>
+    Object.assign(new state.Token('text', '', 0), { content: ' ' });
+
+  const linkTokens = [
+    Object.assign(new state.Token('link_open', 'a', 1), {
+      attrs: [
+        [ 'class', opts.permalinkClass ],
+        [ 'href', opts.permalinkHref(slug, state) ],
+        [ 'aria-hidden', 'true' ]
+      ]
+    }),
+    Object.assign(new state.Token('html_block', '', 0), { content: opts.permalinkSymbol }),
+    new state.Token('link_close', 'a', -1)
+  ];
+
+  // `push` or `unshift` according to position option.
+  // Space is at the opposite side.
+  linkTokens[position[!opts.permalinkBefore]](space());
+  state.tokens[idx + 1].children[position[opts.permalinkBefore]](...linkTokens);
+};
+
+const uniqueSlug = (slug, slugs) => {
+  // Mark this slug as used in the environment.
+  slugs[slug] = (hasProp.call(slugs, slug) ? slugs[slug] : 0) + 1;
+
+  // First slug, return as is.
+  if (slugs[slug] === 1) {
+    return slug;
   }
 
+  // Duplicate slug, add a `-2`, `-3`, etc. to keep ID unique.
+  return slug + '-' + slugs[slug];
+};
 
-}).call(this);
+const isLevelSelectedNumber = selection => level => level >= selection;
+const isLevelSelectedArray = selection => level => selection.includes(level);
 
-},{"./_count":2,"./_splitLeft":3,"./_splitRight":4}]},{},[1])(1)
-});
+const anchor = (md, opts) => {
+  opts = Object.assign({}, anchor.defaults, opts);
+
+  md.core.ruler.push('anchor', state => {
+    const slugs = {};
+    const tokens = state.tokens;
+
+    const isLevelSelected = Array.isArray(opts.level)
+      ? isLevelSelectedArray(opts.level)
+      : isLevelSelectedNumber(opts.level);
+
+    tokens
+      .filter(token => token.type === 'heading_open')
+      .filter(token => isLevelSelected(Number(token.tag.substr(1))))
+      .forEach(token => {
+        // Aggregate the next token children text.
+        const title = tokens[tokens.indexOf(token) + 1].children
+          .filter(child_token => child_token.type === 'text' || child_token.type === 'code_inline')
+          .reduce((acc, t) => acc + t.content, '');
+
+        let slug = token.attrGet('id');
+
+        if (slug == null) {
+          slug = uniqueSlug(opts.slugify(title), slugs);
+          token.attrPush([ 'id', slug ]);
+        }
+
+        if (opts.permalink) {
+          opts.renderPermalink(slug, opts, state, tokens.indexOf(token));
+        }
+
+        if (opts.callback) {
+          opts.callback(token, { slug, title });
+        }
+      });
+  });
+};
+
+anchor.defaults = {
+  level: 1,
+  slugify,
+  permalink: false,
+  renderPermalink,
+  permalinkClass: 'header-anchor',
+  permalinkSymbol: '¶',
+  permalinkBefore: false,
+  permalinkHref
+};
+
+var markdownItAnchor = anchor;
+
+export default markdownItAnchor;

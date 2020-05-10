@@ -1,3 +1,4 @@
+'use strict';
 
 const { equal } = require('assert');
 const md = require('@gerhobbelt/markdown-it');

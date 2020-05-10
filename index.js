@@ -1,3 +1,5 @@
+'use strict';
+
 const string = require('string');
 
 const slugify = s =>

@@ -3,11 +3,9 @@ env:
   browser:  false
   es6:      true
 
-parserOptions:
-  ecmaVersion: 6
-  ecmaFeatures:
-    impliedStrict: true
-
+parserOptions: 
+  ecmaVersion: 2018
+  
 rules:
   accessor-pairs:         2
   array-bracket-spacing:  [ 2, "always", { "singleValue": true, "objectsInArrays": true, "arraysInArrays": true } ]
@@ -33,7 +31,7 @@ rules:
   guard-for-in:           2
   handle-callback-err:    2
 
-  indent:                 [ 2, 2, { VariableDeclarator: { var: 2, let: 2, const: 3 }, SwitchCase: 0, MemberExpression: "off" } ]
+  indent:                 [ 2, 2, { VariableDeclarator: { var: 2, let: 2, const: 3 }, SwitchCase: 0, MemberExpression: "off", ignoreComments: true } ]
 
   # key-spacing:            [ 2, { "align": "value" } ]
   keyword-spacing:        2
@@ -41,7 +39,7 @@ rules:
   max-depth:              [ 1, 6 ]
   max-nested-callbacks:   [ 1, 4 ]
   # string can exceed 80 chars, but should not overflow github website :)
-  max-len:                [ 2, 130, 1000 ]
+  max-len:                [ 2, 140, 1000 ]
   new-cap:                2
   new-parens:             2
   # Postponed
@@ -56,7 +54,7 @@ rules:
   no-console:             1
   no-constant-condition:  2
   #no-control-regex:       2
-  no-debugger:            2
+  no-debugger:            1
   no-delete-var:          2
   no-div-regex:           2
   no-dupe-args:           2
@@ -67,7 +65,7 @@ rules:
   # no-empty:               1
   no-empty-character-class: 2
   no-empty-pattern:       2
-  no-eq-null:             1
+  no-eq-null:             0
   no-eval:                2
   no-ex-assign:           2
   no-extend-native:       2
@@ -126,6 +124,7 @@ rules:
   no-unused-expressions:  2
   no-unused-vars:         2
   no-use-before-define:   2
+  no-var:                 2
   no-void:                2
   no-with:                2
   object-curly-spacing:   [ 2, always, { "objectsInObjects": true, "arraysInObjects": true } ]
