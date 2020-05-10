@@ -12,24 +12,25 @@
     "anchor"
   ],
   "repository": "GerHobbelt/markdown-it-anchor",
-  "engines": {
-    "node": ">=10.0"
-  },
   "license": "UNLICENSE",
   "source": "index.js",
   "main": "index.js",
   "module": "dist/markdown-it.mjs",
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
+    "build": "make",
     "test": "make test",
     "todo": "make todo",
     "clean": "make clean",
     "superclean": "make superclean",
-    "lint": "standard",
+    "doc": "make doc",
+    "lint": "make lint",
     "lintfix": "make lintfix",
     "cov": "make report-coverage",
     "pub": "npm publish --access public"
   },
-  "dependencies": {},
   "devDependencies": {
     "@gerhobbelt/markdown-it": "10.0.0-34",
     "@gerhobbelt/markdown-it-attrs": "^3.0.2-15",
@@ -46,7 +47,6 @@
     "rollup-plugin-node-resolve": "5.2.0",
     "terser": "4.6.13"
   },
-  "tonicExampleFilename": "demo/demo.js",
   "reporter": [
     "lcov",
     "text",
