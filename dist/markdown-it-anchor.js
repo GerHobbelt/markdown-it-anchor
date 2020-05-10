@@ -36,13 +36,16 @@ const renderPermalink = (slug, opts, state, idx) => {
   state.tokens[idx + 1].children[position[opts.permalinkBefore]](...linkTokens);
 };
 
-const uniqueSlug = (slug, slugs) => {
+const uniqueSlug = (slug, slugs, failOnNonUnique) => {
   // Mark this slug as used in the environment.
   slugs[slug] = (hasProp.call(slugs, slug) ? slugs[slug] : 0) + 1;
 
   // First slug, return as is.
   if (slugs[slug] === 1) {
     return slug;
+  }
+  if (failOnNonUnique) {
+    throw new Error(`Defined slug/ID '${slug}' is not unique. Please fix this ID duplication.`);
   }
 
   // Duplicate slug, add a `-2`, `-3`, etc. to keep ID unique.
@@ -76,9 +79,13 @@ const anchor = (md, opts) => {
         let slug = token.attrGet('id');
 
         if (slug == null) {
-          slug = uniqueSlug(opts.slugify(title), slugs);
-          token.attrPush([ 'id', slug ]);
+          slug = uniqueSlug(opts.slugify(title), slugs, false);
+        } else {
+          // mark existing slug/ID as unique, at least.
+          // IFF it collides, FAIL!
+          slug = uniqueSlug(slug, slugs, true);
         }
+        token.attrSet('id', slug);
 
         if (opts.permalink) {
           opts.renderPermalink(slug, opts, state, tokens.indexOf(token));
