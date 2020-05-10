@@ -17,8 +17,8 @@
   },
   "license": "UNLICENSE",
   "source": "index.js",
-  "main": "dist/markdownItAnchor.js",
-  "module": "dist/markdownItAnchor.mjs",
+  "main": "index.js",
+  "module": "dist/markdown-it.mjs",
   "scripts": {
     "test": "make test",
     "todo": "make todo",
