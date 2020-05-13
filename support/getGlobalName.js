@@ -37,10 +37,12 @@ case 'package':
   break;
 
 case 'global':
-  let name = pkg.name.replace(/^.*?\//, '');
-  name = name.replace('markdown-it', 'markdownit').replace(/-([a-z])/g, function (m, p1) {
-    return p1.toUpperCase();
-  });
-  cli.exit(0, name);
+  {
+    let name = pkg.name.replace(/^.*?\//, '');
+    name = name.replace('markdown-it', 'markdownit').replace(/-([a-z])/g, function (m, p1) {
+      return p1.toUpperCase();
+    });
+    cli.exit(0, name);
+  }
   break;
 }
