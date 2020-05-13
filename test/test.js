@@ -181,4 +181,11 @@ describe('markdown-it-anchor', function () {
       '<h1 id="h1-2">H1</h1>\n<h2 id="h1">H2</h2>\n'
     );
   });
+
+  it('create IDs in order', function () {
+    equal(
+      md().use(attrs).use(anchor).render('# header\n\n## header\n\n## header 2'),
+      '<h1 id="header">header</h1>\n<h2 id="header-2">header</h2>\n<h2 id="header-2-2">header 2</h2>\n'
+    );
+  });
 });
