@@ -82,7 +82,8 @@ const anchor = (md, opts) => {
       .filter(token => isLevelSelected(Number(token.tag.substr(1))))
       .forEach(token => {
         // Aggregate the next token children text.
-        const title = tokens[tokens.indexOf(token) + 1]
+        const idx = tokens.indexOf(token);
+        const title = tokens[idx + 1]
           .children
           .filter(child_token => child_token.type === 'text' || child_token.type === 'code_inline')
           .reduce((acc, t) => acc + t.content, '');
@@ -95,7 +96,7 @@ const anchor = (md, opts) => {
         }
 
         if (opts.permalink) {
-          opts.renderPermalink(slug, opts, state, tokens.indexOf(token));
+          opts.renderPermalink(slug, opts, state, idx);
         }
 
         if (opts.callback) {
@@ -106,7 +107,7 @@ const anchor = (md, opts) => {
 };
 
 anchor.defaults = {
-  level: 6,
+  level: 6,                    // **max** level or array of levels
   slugify,
   permalink: false,
   renderPermalink,
