@@ -175,16 +175,10 @@ describe('markdown-it-anchor', function () {
     );
   });
 
-  it('catch edge case: throws an error when the input contains a user-specified ID *after* it has been used and auto-generated for a preceding heading', function () {
+  it('catch edge case: detect any user-specified ID and prevent collision in a auto-generated preceding heading', function () {
     equal(
-      (() => {
-        try {
-          return md().use(attrs).use(anchor).render('# H1\n\n## H2 {id=h1}');
-        } catch (ex) {
-          return ex.message;
-        }
-      })(),
-      "Slug/ID 'h1' defined by user or other markdown-it plugin is not unique. Please fix this ID duplication."
+      md().use(attrs).use(anchor).render('# H1\n\n## H2 {id=h1}'),
+      '<h1 id="h1-2">H1</h1>\n<h2 id="h1">H2</h2>\n'
     );
   });
 });

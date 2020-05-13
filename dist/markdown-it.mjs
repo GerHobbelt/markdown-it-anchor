@@ -66,6 +66,19 @@ const anchor = (md, opts) => {
 
     tokens
       .filter(token => token.type === 'heading_open')
+      .forEach(token => {
+        // Before we do anything, we must collect all previously defined ID attributes to ensure we won't generate any duplicates:
+        let slug = token.attrGet('id');
+
+        if (slug != null) {
+          // mark existing slug/ID as unique, at least.
+          // IFF it collides, FAIL!
+          slug = uniqueSlug(slug, slugs, true);
+        }
+      });
+
+    tokens
+      .filter(token => token.type === 'heading_open')
       .filter(token => isLevelSelected(Number(token.tag.substr(1))))
       .forEach(token => {
         // Aggregate the next token children text.
@@ -78,12 +91,8 @@ const anchor = (md, opts) => {
 
         if (slug == null) {
           slug = uniqueSlug(opts.slugify(title), slugs, false);
-        } else {
-          // mark existing slug/ID as unique, at least.
-          // IFF it collides, FAIL!
-          slug = uniqueSlug(slug, slugs, true);
+          token.attrSet('id', slug);
         }
-        token.attrSet('id', slug);
 
         if (opts.permalink) {
           opts.renderPermalink(slug, opts, state, tokens.indexOf(token));
