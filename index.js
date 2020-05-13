@@ -65,8 +65,10 @@ const anchor = (md, opts) => {
       ? isLevelSelectedArray(opts.level)
       : isLevelSelectedNumber(opts.level);
 
-    tokens
-      .filter(token => token.type === 'heading_open')
+    let htoks = tokens
+      .filter(token => token.type === 'heading_open');
+
+    htoks
       .forEach(token => {
         // Before we do anything, we must collect all previously defined ID attributes to ensure we won't generate any duplicates:
         let slug = token.attrGet('id');
@@ -78,8 +80,7 @@ const anchor = (md, opts) => {
         }
       });
 
-    tokens
-      .filter(token => token.type === 'heading_open')
+    htoks
       .filter(token => isLevelSelected(Number(token.tag.substr(1))))
       .forEach(token => {
         // Aggregate the next token children text.
