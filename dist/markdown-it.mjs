@@ -40,7 +40,6 @@ function uniqueSlug(slug, slugs, failOnNonUnique) {
     n++;
     key = `${slug}-${n}`;
   }
-  console.log('slug:', { slug, key, n });
 
   if (n > 1 && failOnNonUnique) {
     throw new Error(`Slug/ID '${slug}' defined by user or other markdown-it plugin is not unique. Please fix this ID duplication.`);
