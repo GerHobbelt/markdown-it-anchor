@@ -164,7 +164,7 @@ describe('markdown-it-anchor', function () {
           return ex.message;
         }
       })(),
-      "Defined slug/ID 'bubblegum' is not unique. Please fix this ID duplication."
+      "Slug/ID 'bubblegum' defined by user or other markdown-it plugin is not unique. Please fix this ID duplication."
     );
   });
 
@@ -184,7 +184,7 @@ describe('markdown-it-anchor', function () {
           return ex.message;
         }
       })(),
-      "Defined slug/ID 'h1' is not unique. Please fix this ID duplication."
+      "Slug/ID 'h1' defined by user or other markdown-it plugin is not unique. Please fix this ID duplication."
     );
   });
 });
