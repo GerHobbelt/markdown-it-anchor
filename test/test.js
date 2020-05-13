@@ -82,8 +82,8 @@ describe('markdown-it-anchor', function () {
 
   it('renders permalinks for all heading levels which have an ID attribute', function () {
     equal(
-      md().use(anchor, { level: 2, permalink: true }).render('# H1\n\n## H2'),
-      '<h1 id="h1">H1 <a class="header-anchor" href="#h1">¶</a></h1>\n<h2 id="h2">H2 <a class="header-anchor" href="#h2">¶</a></h2>\n'
+      md().use(anchor, { level: 1, permalink: true }).render('# H1\n\n## H2'),
+      '<h1 id="h1">H1 <a class="header-anchor" href="#h1">¶</a></h1>\n<h2>H2</h2>\n'
     );
 
     equal(
@@ -164,7 +164,7 @@ describe('markdown-it-anchor', function () {
           return ex.message;
         }
       })(),
-      "Slug/ID 'bubblegum' defined by user or other markdown-it plugin is not unique. Please fix this ID duplication."
+      "The ID attribute 'bubblegum' defined by user or other markdown-it plugin is not unique. Please fix it in your markdown to continue."
     );
   });
 

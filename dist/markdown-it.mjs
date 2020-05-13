@@ -34,15 +34,14 @@ function renderPermalink(slug, opts, state, idx) {
 function uniqueSlug(slug, slugs, failOnNonUnique) {
   // If first slug, return as is.
   let key = slug;
-  let n = 1;
-  while (slugs.has(key)) {
-    // Duplicate slug, add a `-2`, `-3`, etc. to keep ID unique.
-    n++;
-    key = `${slug}-${n}`;
+  let n = 2;
+  if (slugs.has(key) && failOnNonUnique) {
+    throw new Error(`The ID attribute '${slug}' defined by user or other markdown-it plugin is not unique. Please fix it in your markdown to continue.`);
   }
 
-  if (n > 1 && failOnNonUnique) {
-    throw new Error(`Slug/ID '${slug}' defined by user or other markdown-it plugin is not unique. Please fix this ID duplication.`);
+  while (slugs.has(key)) {
+    // Duplicate slug, add a `-2`, `-3`, etc. to keep ID unique.
+    key = `${slug}-${n++}`;
   }
 
   // Mark this slug as used in the environment.

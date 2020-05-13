@@ -1,4 +1,4 @@
-/*! markdown-it-anchor 5.2.7-18 https://github.com//GerHobbelt/markdown-it-anchor @license MIT */
+/*! markdown-it-anchor 5.3.0-18 https://github.com//GerHobbelt/markdown-it-anchor @license MIT */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.markdownitAnchor = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 'use strict';
@@ -39,15 +39,14 @@ function renderPermalink(slug, opts, state, idx) {
 function uniqueSlug(slug, slugs, failOnNonUnique) {
   // If first slug, return as is.
   let key = slug;
-  let n = 1;
-  while (slugs.has(key)) {
-    // Duplicate slug, add a `-2`, `-3`, etc. to keep ID unique.
-    n++;
-    key = `${slug}-${n}`;
+  let n = 2;
+  if (slugs.has(key) && failOnNonUnique) {
+    throw new Error(`The ID attribute '${slug}' defined by user or other markdown-it plugin is not unique. Please fix it in your markdown to continue.`);
   }
 
-  if (n > 1 && failOnNonUnique) {
-    throw new Error(`Slug/ID '${slug}' defined by user or other markdown-it plugin is not unique. Please fix this ID duplication.`);
+  while (slugs.has(key)) {
+    // Duplicate slug, add a `-2`, `-3`, etc. to keep ID unique.
+    key = `${slug}-${n++}`;
   }
 
   // Mark this slug as used in the environment.
