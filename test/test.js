@@ -1,6 +1,4 @@
-'use strict';
-
-/*eslint-env mocha*/
+/* eslint-env mocha */
 
 
 const { equal } = require('assert');
