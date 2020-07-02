@@ -1,4 +1,4 @@
-'use strict';
+
 
 const md = require('@gerhobbelt/markdown-it')();
 //const anchor = require('@gerhobbelt/markdown-it-anchor');

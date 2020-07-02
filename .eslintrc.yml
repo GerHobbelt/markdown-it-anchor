@@ -6,7 +6,7 @@ env:
 extends: eslint:recommended
 
 parserOptions: 
-  ecmaVersion: 2018
+  ecmaVersion: 2020
   sourceType: module
   
 rules:
@@ -14,7 +14,7 @@ rules:
   array-bracket-spacing:  [ 2, "always", { "singleValue": true, "objectsInArrays": true, "arraysInArrays": true } ]
   block-scoped-var:       1
   block-spacing:          2
-  brace-style:            [ 2, '1tbs', { allowSingleLine: true } ]
+  brace-style:            [ 1, '1tbs', { allowSingleLine: true } ]
   # Postponed
   #callback-return:        2
   comma-dangle:           2
@@ -31,7 +31,7 @@ rules:
   func-style:             [ 1, declaration, { "allowArrowFunctions": true } ]
   # Postponed
   #global-require:         2
-  guard-for-in:           2
+  guard-for-in:           1
   handle-callback-err:    2
 
   indent:                 [ 1, 2, { VariableDeclarator: { var: 2, let: 2, const: 3 }, SwitchCase: 0, MemberExpression: "off", ignoreComments: true } ]
@@ -88,7 +88,7 @@ rules:
   no-label-var:           2
   no-labels:              2
   no-lone-blocks:         2
-  no-lonely-if:           2
+  no-lonely-if:           1
   no-loop-func:           2
   no-mixed-requires:      2
   no-mixed-spaces-and-tabs: 1
@@ -146,7 +146,7 @@ rules:
   # Postponed
   #spaced-comment:         [ 1, always, { exceptions: [ '/', '=' ] } ]
   strict:                 [ 1, global ]
-  quotes:                 [ 2, single, avoid-escape ]
+  quotes:                 [ 1, single, avoid-escape ]
   quote-props:            [ 1, 'as-needed', { "keywords": true } ]
   radix:                  2
   use-isnan:              2

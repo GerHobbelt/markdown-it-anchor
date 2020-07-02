@@ -1,4 +1,5 @@
-/* eslint-env mocha */
+
+/* eslint-env mocha, es6 */
 
 
 const { equal } = require('assert');
