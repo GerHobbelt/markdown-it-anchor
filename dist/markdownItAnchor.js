@@ -1,4 +1,4 @@
-/*! markdown-it-anchor 5.3.0-20 https://github.com//GerHobbelt/markdown-it-anchor @license UNLICENSE */
+/*! markdown-it-anchor 5.3.0-21 https://github.com//GerHobbelt/markdown-it-anchor @license UNLICENSE */
 
 'use strict';
 
