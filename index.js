@@ -32,16 +32,16 @@ function renderPermalink(slug, opts, state, idx) {
   state.tokens[idx + 1].children[position[opts.permalinkBefore]](...linkTokens);
 }
 
-function uniqueSlug(slug, slugs, failOnNonUnique) {
+function uniqueSlug(slug, slugs, failOnNonUnique, startIndex) {
   // If first slug, return as is.
   let key = slug;
-  let n = 2;
+  let n = startIndex;
   if (slugs.has(key) && failOnNonUnique) {
     throw new Error(`The ID attribute '${slug}' defined by user or other markdown-it plugin is not unique. Please fix it in your markdown to continue.`);
   }
 
   while (slugs.has(key)) {
-    // Duplicate slug, add a `-2`, `-3`, etc. to keep ID unique.
+    // Duplicate slug, add a `-1`, `-2`, etc. to keep ID unique.
     key = `${slug}-${n++}`;
   }
 
@@ -92,7 +92,7 @@ const anchor = (md, opts) => {
         let slug = token.attrGet('id');
 
         if (slug == null) {
-          slug = uniqueSlug(opts.slugify(title), slugs, false);
+          slug = uniqueSlug(opts.slugify(title), slugs, false, opts.uniqueSlugStartIndex);
           token.attrSet('id', slug);
         }
 
@@ -117,7 +117,8 @@ anchor.defaults = {
   permalinkSymbol: '¶',
   permalinkBefore: false,
   permalinkHref,
-  permalinkAttrs
+  permalinkAttrs,
+  uniqueSlugStartIndex: 1
 };
 
 module.exports = anchor;
