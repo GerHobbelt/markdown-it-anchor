@@ -30,6 +30,13 @@ describe('markdown-it-anchor', function () {
     );
   });
 
+  it('only renders ID attributes for H1 and H2 when options.level = 2', function () {
+    equal(
+      md().use(anchor, { level: 2 }).render('# H1\n\n## H2'),
+      '<h1 id="h1">H1</h1>\n<h2 id="h2">H2</h2>\n'
+    );
+  });
+
   it('only renders ID attributes for heading levels set in options.level = [...]', function () {
     equal(
       md().use(anchor, { level: [ 2, 4 ] }).render('# H1\n\n## H2\n\n### H3\n\n#### H4\n\n##### H5'),
@@ -68,7 +75,7 @@ describe('markdown-it-anchor', function () {
   it('renders unique IDs', function () {
     equal(
       md().use(anchor).render('# Title\n\n## Title'),
-      '<h1 id="title">Title</h1>\n<h2 id="title-2">Title</h2>\n'
+      '<h1 id="title">Title</h1>\n<h2 id="title-1">Title</h2>\n'
     );
   });
 
@@ -170,21 +177,21 @@ describe('markdown-it-anchor', function () {
   it('renders unique IDs which take user-specified IDs into account', function () {
     equal(
       md().use(attrs).use(anchor).render('# H1 {id=h2}\n\n## H2'),
-      '<h1 id="h2">H1</h1>\n<h2 id="h2-2">H2</h2>\n'
+      '<h1 id="h2">H1</h1>\n<h2 id="h2-1">H2</h2>\n'
     );
   });
 
   it('catch edge case: detect any user-specified ID and prevent collision in a auto-generated preceding heading', function () {
     equal(
       md().use(attrs).use(anchor).render('# H1\n\n## H2 {id=h1}'),
-      '<h1 id="h1-2">H1</h1>\n<h2 id="h1">H2</h2>\n'
+      '<h1 id="h1-1">H1</h1>\n<h2 id="h1">H2</h2>\n'
     );
   });
 
   it('create IDs in order', function () {
     equal(
       md().use(attrs).use(anchor).render('# header\n\n## header\n\n## header 2'),
-      '<h1 id="header">header</h1>\n<h2 id="header-2">header</h2>\n<h2 id="header-2-2">header 2</h2>\n'
+      '<h1 id="header">header</h1>\n<h2 id="header-1">header</h2>\n<h2 id="header-2">header 2</h2>\n'
     );
   });
 });
