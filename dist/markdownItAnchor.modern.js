@@ -1,4 +1,4 @@
-/*! markdown-it-anchor 6.0.0-22 https://github.com//GerHobbelt/markdown-it-anchor @license UNLICENSE */
+/*! markdown-it-anchor 6.0.0-23 https://github.com//GerHobbelt/markdown-it-anchor @license UNLICENSE */
 
 const slugify = s => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'));
 
