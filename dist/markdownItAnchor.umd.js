@@ -1,4 +1,4 @@
-/*! markdown-it-anchor 6.0.0-23 https://github.com//GerHobbelt/markdown-it-anchor @license UNLICENSE */
+/*! markdown-it-anchor 6.0.0-24 https://github.com//GerHobbelt/markdown-it-anchor @license UNLICENSE */
 
 (function (factory) {
   typeof define === 'function' && define.amd ? define(factory) :
