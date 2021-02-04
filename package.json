@@ -1,7 +1,8 @@
 {
   "name": "@gerhobbelt/markdown-it-anchor",
-  "version": "6.0.0-24",
+  "version": "7.0.1-25",
   "description": "Header anchors for markdown-it.",
+  "types": "./types/index.d.ts",
   "keywords": [
     "markdown",
     "markdown-it",

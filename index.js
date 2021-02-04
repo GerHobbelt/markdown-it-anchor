@@ -15,7 +15,7 @@ function renderPermalink(slug, opts, state, idx) {
   const linkTokens = [
     Object.assign(new state.Token('link_open', 'a', 1), {
       attrs: [
-        [ 'class', opts.permalinkClass ],
+        ...(opts.permalinkClass ? [['class', opts.permalinkClass]] : []),
         [ 'href', opts.permalinkHref(slug, state) ],
         ...Object.entries(opts.permalinkAttrs(slug, state))
       ]
@@ -110,6 +110,7 @@ const anchor = (md, opts) => {
 anchor.defaults = {
   level: 6,                    // **max** level or array of levels
   slugify,
+  uniqueSlugStartIndex: 1,
   permalink: false,
   renderPermalink,
   permalinkClass: 'header-anchor',
@@ -118,7 +119,7 @@ anchor.defaults = {
   permalinkBefore: false,
   permalinkHref,
   permalinkAttrs,
-  uniqueSlugStartIndex: 1
+  uniqueSlugStartIndex: 1,
 };
 
 export default anchor;

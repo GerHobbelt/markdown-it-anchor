@@ -7,6 +7,8 @@
 
 [markdown-it]: https://github.com/markdown-it/markdown-it
 
+English | [中文 (v7.0.1)](./README-zh_CN.md)
+
 ## Usage
 
 ```js
@@ -22,6 +24,7 @@ Name                   | Description                                            
 -----------------------|----------------------------------------------------------------|-----------------------------------
 `level`                | Maximum level to apply anchors on or array of selected levels. | 6
 `slugify`              | A custom slugification function.                               | See [`index.js`](index.js)
+`uniqueSlugStartIndex` | Index to start with when making duplicate slugs unique.        | 1
 `permalink`            | Whether to add permalinks next to titles.                      | `false`
 `renderPermalink`      | A custom permalink rendering function.                         | See [`index.js`](index.js)
 `permalinkClass`       | The class of the permalink anchor.                             | `header-anchor`
@@ -31,7 +34,6 @@ Name                   | Description                                            
 `permalinkHref`        | A custom permalink `href` rendering function.                  | See [`index.js`](index.js)
 `permalinkAttrs`       | A custom permalink attributes rendering function.              | See [`index.js`](index.js)
 `callback`             | Called with token and info after rendering.                    | `undefined`
-`uniqueSlugStartIndex` | Index to start with when making duplicate slugs unique.        | 1
 
 The `renderPermalink` function takes the slug, an options object with
 the above options, and then all the usual markdown-it rendering
@@ -100,6 +102,11 @@ const anchor = require('markdown-it-anchor', {
 Looking for an automatic table of contents (TOC) generator? Take a look at
 [markdown-it-toc-done-right](https://www.npmjs.com/package/markdown-it-toc-done-right): it's
 made from the ground up to be a great companion of this plugin.
+
+
+## Browser Example
+
+See `example.html`.
 
 
 ## License
