@@ -78,15 +78,15 @@ const anchor = require('markdown-it-anchor', {
 ## Unicode Support
 
 Unicode is supported by default. Yet, if you are looking for a "prettier"
---opinionated-- link, _i.e_ without %xx, you may want to take a look at `uslug`:
+--opinionated-- link, _i.e_ without %xx, you may want to take a look at [`@gerhobbelt/slug`](https://github.com/GerHobbelt/node-slug):
 
 ```sh
-$ npm i -S uslug
+$ npm i -S @gerhobbelt/slug
 ```
 
 ```js
-const uslug = require('uslug')
-const uslugify = s => uslug(s)
+const slug = require('@gerhobbelt/slug')
+const uslugify = s => slug(s, { mode: 'rfc3986' })
 
 const md = require('markdown-it')()
 const anchor = require('markdown-it-anchor', {
@@ -99,7 +99,7 @@ const anchor = require('markdown-it-anchor', {
 
 Looking for an automatic table of contents (TOC) generator? Take a look at
 [markdown-it-toc-done-right](https://www.npmjs.com/package/markdown-it-toc-done-right): it's
-made from the ground to be a great companion of this plugin.
+made from the ground up to be a great companion of this plugin.
 
 
 ## License
