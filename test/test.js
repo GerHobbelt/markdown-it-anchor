@@ -1,11 +1,11 @@
-
 /* eslint-env mocha, es6 */
 
 
-const { equal } = require('assert');
-const md = require('@gerhobbelt/markdown-it');
-const attrs = require('@gerhobbelt/markdown-it-attrs');
-const anchor = require('../');
+import assert from 'assert';
+const equal = assert.equal;
+import md from '@gerhobbelt/markdown-it';
+import attrs from '@gerhobbelt/markdown-it-attrs';
+import anchor from '../index.js';
 
 
 describe('markdown-it-anchor', function () {

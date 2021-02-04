@@ -121,4 +121,4 @@ anchor.defaults = {
   uniqueSlugStartIndex: 1
 };
 
-module.exports = anchor;
+export default anchor;

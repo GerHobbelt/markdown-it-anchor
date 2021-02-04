@@ -1,7 +1,5 @@
 /*! markdown-it-anchor 6.0.0-24 https://github.com//GerHobbelt/markdown-it-anchor @license UNLICENSE */
 
-'use strict';
-
 const slugify = s => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'));
 
 const position = {
@@ -111,5 +109,6 @@ anchor.defaults = {
   permalinkAttrs,
   uniqueSlugStartIndex: 1
 };
-module.exports = anchor;
-//# sourceMappingURL=markdownItAnchor.js.map
+
+export default anchor;
+//# sourceMappingURL=markdownItAnchor.modern.js.map

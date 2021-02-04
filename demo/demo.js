@@ -1,12 +1,14 @@
 
+import uslug from 'uslug';
 
-const md = require('@gerhobbelt/markdown-it')();
-//const anchor = require('@gerhobbelt/markdown-it-anchor');
-const anchor = require('../');
+import markdown_it from '@gerhobbelt/markdown-it';
+const md = markdown_it();
+//import anchor from '@gerhobbelt/markdown-it-anchor';
+import anchor from '../index.js';
 
 md.use(anchor, {
-  level: 1,
-  // slugify: string => string,
+  level: 2,
+  slugify: s => uslug(s),
   permalink: false,
   // renderPermalink: (slug, opts, state, permalink) => {},
   permalinkClass: 'header-anchor',
