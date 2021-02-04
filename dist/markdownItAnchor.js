@@ -1,4 +1,4 @@
-/*! markdown-it-anchor 6.0.0-24 https://github.com//GerHobbelt/markdown-it-anchor @license UNLICENSE */
+/*! markdown-it-anchor 7.0.1-25 https://github.com//GerHobbelt/markdown-it-anchor @license UNLICENSE */
 
 const slugify = s => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'));
 
@@ -17,7 +17,7 @@ function renderPermalink(slug, opts, state, idx) {
   });
 
   const linkTokens = [Object.assign(new state.Token('link_open', 'a', 1), {
-    attrs: [['class', opts.permalinkClass], ['href', opts.permalinkHref(slug, state)], ...Object.entries(opts.permalinkAttrs(slug, state))]
+    attrs: [...(opts.permalinkClass ? [['class', opts.permalinkClass]] : []), ['href', opts.permalinkHref(slug, state)], ...Object.entries(opts.permalinkAttrs(slug, state))]
   }), Object.assign(new state.Token('html_block', '', 0), {
     content: opts.permalinkSymbol
   }), new state.Token('link_close', 'a', -1)]; // `push` or `unshift` according to position option.
@@ -99,6 +99,7 @@ anchor.defaults = {
   level: 6,
   // **max** level or array of levels
   slugify,
+  uniqueSlugStartIndex: 1,
   permalink: false,
   renderPermalink,
   permalinkClass: 'header-anchor',
@@ -106,8 +107,7 @@ anchor.defaults = {
   permalinkSymbol: '¶',
   permalinkBefore: false,
   permalinkHref,
-  permalinkAttrs,
-  uniqueSlugStartIndex: 1
+  permalinkAttrs
 };
 
 export default anchor;

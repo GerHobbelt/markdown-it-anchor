@@ -1,26 +1,21 @@
-import MarkdownIt = require('markdown-it');
-import Core = require('markdown-it/lib/parser_core');
-import Token = require('markdown-it/lib/token');
-
+export default anchor;
+declare function anchor(md: any, opts: any): void;
 declare namespace anchor {
-    interface AnchorInfo {
-        slug: string;
-        title: string;
-    }
-
-    interface AnchorOptions {
-        level?: number;
-        slugify?(str: string): string;
-        permalink?: boolean;
-        renderPermalink?(slug: string, opts: AnchorOptions, state: Core, idx: number): void;
-        permalinkClass?: string;
-        permalinkSymbol?: string;
-        permalinkBefore?: boolean;
-        permalinkHref?(slug: string): string;
-        callback?(token: Token, anchor_info: AnchorInfo): void;
+    namespace defaults {
+        export const level: number;
+        export { slugify };
+        export const uniqueSlugStartIndex: number;
+        export const permalink: boolean;
+        export { renderPermalink };
+        export const permalinkClass: string;
+        export const permalinkSpace: boolean;
+        export const permalinkSymbol: string;
+        export const permalinkBefore: boolean;
+        export { permalinkHref };
+        export { permalinkAttrs };
     }
 }
-
-declare function anchor(md: MarkdownIt, opts: anchor.AnchorOptions): void;
-
-export = anchor;
+declare function slugify(s: any): string;
+declare function renderPermalink(slug: any, opts: any, state: any, idx: any): void;
+declare function permalinkHref(slug: any): string;
+declare function permalinkAttrs(slug: any): {};

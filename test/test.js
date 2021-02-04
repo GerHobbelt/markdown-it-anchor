@@ -58,6 +58,13 @@ describe('markdown-it-anchor', function () {
     );
   });
 
+  it('renders permalinks with null options.permalinkClass', function () {
+    equal(
+      md().use(anchor, { permalink: true, permalinkClass: null }).render('# H1'),
+      '<h1 id="h1">H1 <a href="#h1">¶</a></h1>\n'
+    );
+  });
+
   it('renders permalinks with custom options.permalinkSymbol', function () {
     equal(
       md().use(anchor, { permalink: true, permalinkSymbol: 'P' }).render('# H1'),
@@ -158,6 +165,15 @@ describe('markdown-it-anchor', function () {
     .use(anchor, { permalink: true, permalinkAttrs: (slug, state) => ({ 'aria-label': `permalink to ${slug}`, title: 'permalink' }) })
     .render('# My title'),
       '<h1 id="my-title">My title <a class="header-anchor" href="#my-title" aria-label="permalink to my-title" title="permalink">¶</a></h1>\n'
+    );
+  });
+
+  it('renders permalink attributes with custom start index', function () {
+    equal(
+      md()
+    .use(anchor, { uniqueSlugStartIndex: 4 })
+    .render('# Lorem\n## Lorem\n### Lorem'),
+      '<h1 id="lorem">Lorem</h1>\n<h2 id="lorem-4">Lorem</h2>\n<h3 id="lorem-5">Lorem</h3>\n'
     );
   });
 
