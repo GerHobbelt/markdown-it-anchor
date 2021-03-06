@@ -29,7 +29,14 @@ function renderPermalink(slug, opts, state, idx) {
   if (opts.permalinkSpace) {
     linkTokens[position[!opts.permalinkBefore]](space());
   }
-  state.tokens[idx + 1].children[position[opts.permalinkBefore]](...linkTokens);
+
+  for (let j = idx + 1, iK = state.tokens.length; j < iK; j++) {
+    const token = state.tokens[j];
+    if (token.type === 'heading_close') { break; }
+    if (!token.children) { continue; }
+    token.children[position[opts.permalinkBefore]](...linkTokens);
+    break;
+  }
 }
 
 function uniqueSlug(slug, slugs, failOnNonUnique, startIndex) {
@@ -84,11 +91,20 @@ const anchor = (md, opts) => {
       .forEach(token => {
         // Aggregate the next token children text.
         const idx = tokens.indexOf(token);
-        const title = tokens[idx + 1]
-          .children
-          .filter(child_token => child_token.type === 'text' || child_token.type === 'code_inline')
-          .reduce((acc, t) => acc + t.content, '');
-
+        let keyparts = [];
+        for (let j = idx + 1, iK = tokens.length; j < iK; j++) {
+          const token = tokens[j];
+          if (token.type === 'heading_close') { break; }
+          if (!token.children) { continue; }
+          const keypart = token.children
+          .filter(token => token.type === 'text' || token.type === 'code_inline')
+          .reduce((acc, t) => acc + t.content, '')
+          .trim();
+          if (keypart.length > 0) {
+            keyparts.push(keypart);
+          }
+        }
+        const title = keyparts.join(' ');
         let slug = token.attrGet('id');
 
         if (slug == null) {
