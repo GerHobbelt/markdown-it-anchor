@@ -71,55 +71,60 @@ const anchor = (md, opts) => {
       ? isLevelSelectedArray(opts.level)
       : isLevelSelectedNumber(opts.level);
 
-    let htoks = tokens
-      .filter(token => token.type === 'heading_open');
+    tokens.forEach((token, i) => {
+      if (token.type !== 'heading_open') {
+        return;
+      }
 
-    htoks
-      .forEach(token => {
-        // Before we do anything, we must collect all previously defined ID attributes to ensure we won't generate any duplicates:
-        let slug = token.attrGet('id');
+      // Before we do anything, we must collect all previously defined ID attributes to ensure we won't generate any duplicates:
+      let slug = token.attrGet('id');
 
-        if (slug != null) {
-          // mark existing slug/ID as unique, at least.
-          // IFF it collides, FAIL!
-          slug = uniqueSlug(slug, slugs, true);
+      if (slug != null) {
+        // mark existing slug/ID as unique, at least.
+        // IFF it collides, FAIL!
+        slug = uniqueSlug(slug, slugs, true);
+      }
+    });
+
+    tokens.forEach((token, i) => {
+      if (token.type !== 'heading_open') {
+        return;
+      }
+
+      if (!isLevelSelected(Number(token.tag.substr(1)))) {
+        return;
+      }
+
+      // Aggregate the next token children text.
+      let keyparts = [];
+      for (let j = i + 1, iK = tokens.length; j < iK; j++) {
+        const token = tokens[j];
+        if (token.type === 'heading_close') { break; }
+        if (!token.children) { continue; }
+        const keypart = token.children
+        .filter(token => token.type === 'text' || token.type === 'code_inline')
+        .reduce((acc, t) => acc + t.content, '')
+        .trim();
+        if (keypart.length > 0) {
+          keyparts.push(keypart);
         }
-      });
+      }
+      const title = keyparts.join(' ');
+      let slug = token.attrGet('id');
 
-    htoks
-      .filter(token => isLevelSelected(Number(token.tag.substr(1))))
-      .forEach(token => {
-        // Aggregate the next token children text.
-        const idx = tokens.indexOf(token);
-        let keyparts = [];
-        for (let j = idx + 1, iK = tokens.length; j < iK; j++) {
-          const token = tokens[j];
-          if (token.type === 'heading_close') { break; }
-          if (!token.children) { continue; }
-          const keypart = token.children
-          .filter(token => token.type === 'text' || token.type === 'code_inline')
-          .reduce((acc, t) => acc + t.content, '')
-          .trim();
-          if (keypart.length > 0) {
-            keyparts.push(keypart);
-          }
-        }
-        const title = keyparts.join(' ');
-        let slug = token.attrGet('id');
+      if (slug == null) {
+        slug = uniqueSlug(opts.slugify(title), slugs, false, opts.uniqueSlugStartIndex);
+        token.attrSet('id', slug);
+      }
 
-        if (slug == null) {
-          slug = uniqueSlug(opts.slugify(title), slugs, false, opts.uniqueSlugStartIndex);
-          token.attrSet('id', slug);
-        }
+      if (opts.permalink) {
+        opts.renderPermalink(slug, opts, state, i);
+      }
 
-        if (opts.permalink) {
-          opts.renderPermalink(slug, opts, state, idx);
-        }
-
-        if (opts.callback) {
-          opts.callback(token, { slug, title });
-        }
-      });
+      if (opts.callback) {
+        opts.callback(token, { slug, title });
+      }
+    });
   });
 };
 

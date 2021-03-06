@@ -1,4 +1,4 @@
-/*! markdown-it-anchor 7.0.1-27 https://github.com//GerHobbelt/markdown-it-anchor @license UNLICENSE */
+/*! markdown-it-anchor 7.0.2-27 https://github.com//GerHobbelt/markdown-it-anchor @license UNLICENSE */
 
 const slugify = s => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'));
 
@@ -72,9 +72,12 @@ const anchor = (md, opts) => {
     const slugs = new Map();
     const tokens = state.tokens;
     const isLevelSelected = Array.isArray(opts.level) ? isLevelSelectedArray(opts.level) : isLevelSelectedNumber(opts.level);
-    let htoks = tokens.filter(token => token.type === 'heading_open');
-    htoks.forEach(token => {
-      // Before we do anything, we must collect all previously defined ID attributes to ensure we won't generate any duplicates:
+    tokens.forEach((token, i) => {
+      if (token.type !== 'heading_open') {
+        return;
+      } // Before we do anything, we must collect all previously defined ID attributes to ensure we won't generate any duplicates:
+
+
       let slug = token.attrGet('id');
 
       if (slug != null) {
@@ -83,12 +86,19 @@ const anchor = (md, opts) => {
         slug = uniqueSlug(slug, slugs, true);
       }
     });
-    htoks.filter(token => isLevelSelected(Number(token.tag.substr(1)))).forEach(token => {
-      // Aggregate the next token children text.
-      const idx = tokens.indexOf(token);
+    tokens.forEach((token, i) => {
+      if (token.type !== 'heading_open') {
+        return;
+      }
+
+      if (!isLevelSelected(Number(token.tag.substr(1)))) {
+        return;
+      } // Aggregate the next token children text.
+
+
       let keyparts = [];
 
-      for (let j = idx + 1, iK = tokens.length; j < iK; j++) {
+      for (let j = i + 1, iK = tokens.length; j < iK; j++) {
         const _token = tokens[j];
 
         if (_token.type === 'heading_close') {
@@ -115,7 +125,7 @@ const anchor = (md, opts) => {
       }
 
       if (opts.permalink) {
-        opts.renderPermalink(slug, opts, state, idx);
+        opts.renderPermalink(slug, opts, state, i);
       }
 
       if (opts.callback) {
